@@ -1,11 +1,11 @@
 int[][] slot;
 boolean[][] flagSlot; // use for flag
-int bombCount; // 共有幾顆炸彈
-int clickCount; // 共點了幾格
-int flagCount; // 共插了幾支旗
-int nSlot; // 分割 nSlot*nSlot格
-int totalSlots; // 總格數
-final int SLOT_SIZE = 100; //每格大小
+int bombCount; 
+int clickCount;
+int flagCount; 
+int nSlot; 
+int totalSlots; 
+final int SLOT_SIZE = 100; 
 
 int sideLength; // SLOT_SIZE * nSlot
 int ix; // (width - sideLength)/2
@@ -38,7 +38,7 @@ void setup(){
 
   nSlot = 4;
   totalSlots = nSlot*nSlot;
-  // 初始化二維陣列
+ 
   slot = new int[nSlot][nSlot];
   
   sideLength = SLOT_SIZE * nSlot;
@@ -67,7 +67,9 @@ void draw(){
           break;
     case GAME_RUN:
           //---------------- put you code here ----
-
+       /* 
+             */
+        
           // -----------------------------------
           break;
     case GAME_WIN:
@@ -79,13 +81,125 @@ void draw(){
           textSize(18);
           fill(0);
           text("YOU LOSE !!",width/3,30);
+          
+ /*         //===
+if(gameState == GAME_WIN || gameState == GAME_LOSE){
+ for(int col=0;col<4;col++){
+   for(int row=0;row<4;row++){
+     if(slot[col][row]==SLOT_FLAG &&  ) 
+    
+    
+   }//end for row
+ }//end for col
+
+}
+ */         //===
+          
           break;
   }
 }
 
 int countNeighborBombs(int col,int row){
   // -------------- Requirement B ---------
-  return 0;
+  
+   //
+    int count = 0;
+    if(col == 0){
+      if(row == 0 ){
+      for(int i=col ; i<(col+2);i++){
+     for(int j=row ; j<(row+2);j++){
+       if(slot[i][j] == SLOT_BOMB){
+       count++;
+       
+       }else{count = count ;}
+     }
+   }
+      }
+      else if(row == 3){
+      for(int i=col ; i<(col+2);i++){
+     for(int j=row-1 ; j<(row+1);j++){
+       if(slot[i][j] == SLOT_BOMB){
+       count++;
+       
+       }else{count = count ;}
+     }
+   }
+      }
+      else{
+      for(int i=col ; i<(col+2);i++){
+     for(int j=row-1 ; j<(row+2);j++){
+       if(slot[i][j] == SLOT_BOMB){
+       count++;
+       
+       }else{count = count ;}
+     }
+   }
+      }
+    }//end of if col/row
+    else if(col == 3){
+      if(row == 0 ){
+      for(int i=col-1 ; i<(col+1);i++){
+     for(int j=row ; j<(row+2);j++){
+       if(slot[i][j] == SLOT_BOMB){
+       count++;
+       
+       }else{count = count ;}
+     }
+   }
+      }
+      else if(row == 3){
+      for(int i=col-1 ; i<(col+1);i++){
+     for(int j=row-1 ; j<(row+1);j++){
+       if(slot[i][j] == SLOT_BOMB){
+       count++;
+       
+       }else{count = count ;}
+     }
+   }
+      }
+      else{
+      for(int i=col-1 ; i<(col+1);i++){
+     for(int j=row-1 ; j<(row+2);j++){
+       if(slot[i][j] == SLOT_BOMB){
+       count++;
+       
+       }else{count = count ;}
+     }
+   }
+      }
+    }//end of if col/row
+    else if(row==0 &&(col==1 || col==2)){
+    for(int i=col-1 ; i<(col+2);i++){
+     for(int j=row ; j<(row+2);j++){
+       if(slot[i][j] == SLOT_BOMB){
+       count++;
+       
+       }else{count = count ;}
+     }
+   }
+    }
+    else if(row==3 &&(col==1 || col==2)){
+        for(int i=col-1 ; i<(col+2);i++){
+     for(int j=row-1 ; j<(row+1);j++){
+       if(slot[i][j] == SLOT_BOMB){
+       count++;
+       
+       }else{count = count ;}
+     }
+   }
+    }
+    else{
+   for(int i=col-1 ; i<(col+2);i++){
+     for(int j=row-1 ; j<(row+2);j++){
+       if(slot[i][j] == SLOT_BOMB){
+       count++;
+       
+       }else{count = count ;}
+     }
+   }
+    }//end else
+   return count;
+  
 }
 
 void setBombs(){
@@ -97,7 +211,21 @@ void setBombs(){
   }
   // -------------- put your code here ---------
   // randomly set bombs
-
+  for(int i =0 ;i < bombCount ; i++){
+    int rcol = int(random(4));
+    int rrow = int(random(4));
+    slot[rcol][rrow] = SLOT_BOMB;
+     //secrectly remember the bombs' location 
+   /* ==
+    if(slot[rcol][rrow] == SLOT_BOMB){//maybe the bomb duplicated assign
+     rcol = int(random(5));
+     rrow = int(random(5));
+    } */  
+      
+   //   println(rcol,rrow);
+    
+  }
+ 
   // ---------------------------------------
 }
 
@@ -134,6 +262,7 @@ void showSlot(int col, int row, int slotState){
             textSize(SLOT_SIZE*3/5);
             text( count, x+15, y+15+SLOT_SIZE*3/5);
           }
+      //     println(count);//
           break;
     case SLOT_FLAG:
           image(flag,x,y,SLOT_SIZE,SLOT_SIZE);
@@ -173,8 +302,55 @@ void mousePressed(){
        mouseX >= ix && mouseX <= ix+sideLength && 
        mouseY >= iy && mouseY <= iy+sideLength){
     
-    // --------------- put you code here -------     
-
+    // --------------- put you code here ------- 
+    for(int col=0; col < 4 ; col++){    
+    if(mouseX >= (ix+ col*SLOT_SIZE) && mouseX <= ix+(col+1)*SLOT_SIZE){
+      for(int row=0; row < 4 ; row++){
+      if(mouseY >= (iy+ row*SLOT_SIZE) && mouseY <= iy+(row+1)*SLOT_SIZE){
+   
+        if(mouseButton == LEFT){
+   
+          if((slot[col][row] != SLOT_BOMB) && (slot[col][row] != SLOT_SAFE)){           
+            showSlot(col,row,SLOT_SAFE);           
+            clickCount++;
+              if(clickCount == (totalSlots-bombCount)){
+              gameState = GAME_WIN;
+              }
+           
+          }else if(slot[col][row] == SLOT_BOMB){
+            showSlot(col,row,SLOT_DEAD);
+            gameState = GAME_LOSE;
+          }
+          
+         
+         
+       //  slot[n][k] = SLOT_SAFE ;
+         //end of if(slot[n][k] == SLOT_BOMB)
+      //showSlot(n,k,int(random(3)));
+        }
+    
+     else if(mouseButton == RIGHT && (slot[col][row] != SLOT_SAFE ||  slot[col][row]== SLOT_BOMB)){
+            if((flagCount < bombCount)&& slot[col][row] != SLOT_FLAG){
+            showSlot(col,row,SLOT_FLAG);
+            flagCount++;
+           // println(flagCount);
+            }else if(slot[col][row] == SLOT_FLAG){
+              showSlot(col,row,SLOT_OFF);
+              flagCount--;
+            }          
+            }   
+ 
+   
+    /*  
+        if(slotState == SLOT_OFF){  
+      //  showSlot(n,k,);}
+     */
+    }//end y if  
+      }//end k for
+    }//end x if
+  
+    }//end n for
+    
     // -------------------------
     
   }
@@ -187,3 +363,11 @@ void keyPressed(){
      gameState = GAME_START;
   }
 }
+
+/*
+void showEnd(){
+  if(slotState == SLOT_OFF){//only when game_lose
+  
+  }
+}
+*/
