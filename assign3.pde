@@ -309,15 +309,29 @@ void mousePressed(){
       if(mouseY >= (iy+ row*SLOT_SIZE) && mouseY <= iy+(row+1)*SLOT_SIZE){
    
         if(mouseButton == LEFT){
-   
-          if((slot[col][row] != SLOT_BOMB) && (slot[col][row] != SLOT_SAFE)){           
+         /*
+          for(int col=0;col<4;col++){
+          for(int row=0;row<4;row++){
+          if(slot[col][row]!=SLOT_BOMB){
+          if(slot[col][row]!=SLOT_SAFE){
+            if(clickCount>16){}
+          }
+          }
+          }
+          }
+          */
+          
+         if((slot[col][row] != SLOT_BOMB) && (slot[col][row] != SLOT_SAFE)){           
             showSlot(col,row,SLOT_SAFE);           
+            if(slot[col][row] == SLOT_SAFE){
             clickCount++;
               if(clickCount == (totalSlots-bombCount)){
               gameState = GAME_WIN;
               }
+            }
            
-          }else if(slot[col][row] == SLOT_BOMB){
+          }
+          else if(slot[col][row] == SLOT_BOMB){
             showSlot(col,row,SLOT_DEAD);
             gameState = GAME_LOSE;
           }
