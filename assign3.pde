@@ -323,12 +323,10 @@ void mousePressed(){
           
          if((slot[col][row] != SLOT_BOMB) && (slot[col][row] != SLOT_SAFE)){           
             showSlot(col,row,SLOT_SAFE);           
-            if(slot[col][row] == SLOT_SAFE){
             clickCount++;
               if(clickCount == (totalSlots-bombCount)){
               gameState = GAME_WIN;
               }
-            }
            
           }
           else if(slot[col][row] == SLOT_BOMB){
